@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="JavaScript image cropper.">
+    <meta name="keywords" content="HTML, CSS, JS, JavaScript, image cropping, cropper, cropperjs, cropper.js, front-end, web development">
+    <meta name="author" content="Chen Fengyuan">
+    <title>Cropper</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cropper.css">
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/cropper.js"></script>
+    <script src="js/cropper_customer.js"></script>
+    <!--<script src="/assets/js/ajaxFileUploadNew.js"></script>-->
+    <script>
+        function convertBase64UrlToBlob(urlData){
+            var bytes=window.atob(urlData.split(',')[1]);
+            var ab = new ArrayBuffer(bytes.length);
+            var ia = new Uint8Array(ab);
+            for(var i=0;i<bytes.length;i++){ia[i]=bytes.charCodeAt(i);}
+            return new Blob([ab],{type:'image/jpeg'});
+        }
+        $(document).ready(function(){
+            $("#mybtn1").click(function(){
+                var s=$("#download").attr("href");
+                var file=convertBase64UrlToBlob(s);
+                var formdata=new FormData();
+                var newname="20171229.jpg";
+                formdata.append("myfile",file,newname);
+                $.ajax({
+                    url: '/file/uploadimg.json' ,
+                    type: 'POST',
+                    data: formdata,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+<style type="text/css">
+    .img-container, .img-preview {  background-color: #f7f7f7;  text-align: center;  width: 100%;  }
+    .img-container {  margin-bottom: 1rem;  height:497px;  }
+    .img-container > img {  max-width: 100%;  }
+    .docs-cropped .modal-body {text-align: center;}
+    .docs-cropped .modal-body > img,
+    .docs-cropped .modal-body > canvas { max-width: 100%;}
+    .imgstep1{width:100%;}
+</style>
+</head>
+<body>
+
+
+<!-- Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <!-- <h3>Demo:</h3> -->
+            <div class="img-container">
+                <img src="" alt="头像">
+            </div>
+        </div>
+    </div>
+    <div class="row" id="actions">
+        <div class="col-md-9 docs-buttons">
+
+
+            <div class="btn-group btn-group-crop">
+                <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
+                    <span>裁剪</span>
+                </button>
+            </div>
+            <!-- Show the cropped image in modal -->
+            <div class="modal fade docs-cropped" id="getCroppedCanvasModal" role="dialog" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a class="btn btn-primary" style="display: none;" id="download" href="javascript:void(0);" download="cropped.jpg">下载</a>
+                            <button type="button" class="btn btn-primary" id="mybtn1">上传</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+
+        </div><!-- /.docs-buttons -->
+    </div>
+</div>
+<div class="row">
+    <div class="btn-group">
+        <label class="btn btn-primary btn-upload" for="inputImage">
+            <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp">
+            <span>选择...</span>
+        </label>
+    </div>
+</div>
+
+</body>
+</html>

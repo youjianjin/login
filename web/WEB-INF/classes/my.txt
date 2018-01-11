@@ -1,0 +1,26 @@
+*********************************************GBK*******************************************
+1.调用时需要改动:
+jdbc.properties里面的参数,
+applicationContext.xml里面的hibernate方言。
+<context:component-scan base-package="cn.desayele.care" />这个在tomcat(放到d..s.xml)和java(放到a..c.xml)服务里面需要改位置;
+****************************************************************************************
+<mvc:annotation-driven />的意义：
+<mvc:annotation-driven /> 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,
+是spring MVC为@Controllers分发请求所必须的。并提供了：数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，
+读写XML的支持（JAXB），读写JSON的支持（Jackson）。后面，我们处理响应ajax请求时，就使用到了对json的支持。
+****************************************************************************************
+<context:component-scan/> 扫描指定的包中的类上的注解，常用的注解有：
+
+@Controller 声明Action组件
+@Service    声明Service组件    @Service("myMovieLister") 
+@Repository 声明Dao组件
+@Component   泛指组件, 当不好归类时. 
+@RequestMapping("/menu")  请求映射
+@Resource  用于注入，( j2ee提供的 ) 默认按名称装配，@Resource(name="beanName") 
+@Autowired 用于注入，(srping提供的) 默认按类型装配 
+@Transactional( rollbackFor={Exception.class}) 事务管理
+@ResponseBody
+@Scope("prototype")   设定bean的作用域
+****************************************************************************************
+<prop key="hibernate.current_session_context_class">thread</prop>
+单数据库我们使用本地事务，多数据库则使用全局事务，来管理session.

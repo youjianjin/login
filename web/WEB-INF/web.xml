@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_Id" version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <!-- 配置spring核心servlet -->  
+    <servlet>  
+        <servlet-name>dispatcher</servlet-name>  
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <!-- url-pattern配置为/，不带文件后缀，会造成其它静态文件(js，css等)不能访问。如配为*.do，则不影响静态文件的访问 -->  
+    <servlet-mapping>  
+        <servlet-name>dispatcher</servlet-name>  
+        <url-pattern>*.json</url-pattern>
+    </servlet-mapping>
+    <!-- unicode -->
+    <filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+    <!-- welcome page -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <!-- session timeout -->
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
+    <!-- 404 page -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <!-- jsp include -->
+    <jsp-config>
+        <jsp-property-group>
+            <description>html encoding</description>
+            <display-name>JSPConfiguration</display-name>
+            <url-pattern>*.html</url-pattern>
+            <el-ignored>true</el-ignored>
+            <page-encoding>UTF-8</page-encoding>
+            <scripting-invalid>false</scripting-invalid>
+            <include-prelude></include-prelude>
+            <include-coda></include-coda>
+        </jsp-property-group>
+    </jsp-config>
+</web-app>
