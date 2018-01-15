@@ -46,16 +46,16 @@
     .input-success{border-color: #92bf65!important;}
     .input-error{border-color: #d16e6c!important;}
     /* top */
-    .banner{width:100%;z-index: 1;height: 60px;background-color: #0073ae;}
+    .banner{width:100%;z-index: 1;height: 100px;background-color: #0073ae;}
     .bannerimg1{height: 60px;margin-top: 20px;margin-left: 30%;float: left;}
     .bannerr{width:50%;float: left;margin-left: 5%;}
     .bannerimg2{height: 60px;margin-top: 20px;}
     /* login */
-    .login,.register,.regsuc,.logtout,.logout,.loglock{width:960px;width: 100%;z-index: 1;margin: 60px auto;display:none;}
+    .login,.register,.regsuc,.logtout,.logout,.loglock{width:960px;z-index: 1;margin: 160px auto;display:none;}
     .div_log_divider{width:1px;height:30px;float: left;margin: 0 -1px;background-color: #ccc;}
-    .login>div,.register>div,.regsuc>div,.logtout>div,.logout>div,.loglock>div{width: 340px;width: 100%; padding-left:30px;}
+    .login>div,.register>div,.regsuc>div,.logtout>div,.logout>div,.loglock>div{width: 640px;margin-left: 320px;}
     .login_step3{margin-top: 120px;}
-    .login_step3,.login_step40{width:300px!important;}
+    .login_step3,.login_step4{width:300px!important;}
     .log_a_choose{cursor: pointer;}
     .log_a_choose i{color:#fff;}
     .dotline{width: 100%;height: 10px;float: left;border-bottom: 1px dotted #428bac;}
@@ -86,7 +86,7 @@
 <body>
 	<div class="c">
         <div class="banner" style="color:#FFF;">
-            <font style="font-size:30px; font-weight:bold; padding-top:10px; padding-left:20px; float:left;">管理系统</font>
+            管理系统
             <div class="bannerr">
             </div>
         </div>
