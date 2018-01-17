@@ -103,8 +103,8 @@ public class FileUploadController {
         String return_msg=null;
         Map map=new HashMap<String,Object>();
         try {
-            Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-            if(l==null){
+            Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+            if(loginer==null){
                 map.put("msg","error1");
             }else{
                 if(!myfile.isEmpty()){
@@ -115,7 +115,7 @@ public class FileUploadController {
                         String path = request.getSession().getServletContext().getRealPath("/file/portrait/" + filename);
                         File destFile = new File(path);
                         FileUtils.copyInputStreamToFile(myfile.getInputStream(), destFile);//复制临时文件到指定目录下
-                        String url=modifyPortrait(l.getOid(),"/file/portrait/"+filename);
+                        String url=modifyPortrait(loginer.getOid(),"/file/portrait/"+filename);
                         map.put("msg","ok");
                         map.put("url",url);
                     }else{
@@ -158,8 +158,8 @@ public class FileUploadController {
         String return_msg=null;
         Map map=new HashMap<String,Object>();
         try {
-            Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-            if(l==null){
+            Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+            if(loginer==null){
                 map.put("msg","error1");
             }else{
                 if(!myfile.isEmpty()){

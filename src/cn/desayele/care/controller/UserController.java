@@ -64,36 +64,36 @@ public class UserController {
 				if(randcode.equals(gcode)){
 					String MD5pwd=Password.getEnPassword(gpassword);
 					if(gltype.equals("1")){
-						TUserEntity t=userService.getTUserEntityByGMGP(gmobile,MD5pwd);
-						if(t==null || t.getOid()==null){//账号或密码错误
+						TUserEntity user=userService.getTUserEntityByGMGP(gmobile,MD5pwd);
+						if(user==null || user.getOid()==null){//账号或密码错误
 							map.put("msg","error2");
 						}else{//将登录信息储存到session
-							Loginer l=new Loginer();
-							l.setOid(t.getOid());
-							l.setGmobile(t.getGmobile());
-							l.setGltype(gltype);
-							l.setGlev1(t.getGlev1());
-							request.getSession().setAttribute("loginer",l);
+							Loginer loginer=new Loginer();
+							loginer.setOid(user.getOid());
+							loginer.setGmobile(user.getGmobile());
+							loginer.setGltype(gltype);
+							loginer.setGlev1(user.getGlev1());
+							request.getSession().setAttribute("loginer",loginer);
 //							logSuc(request);
 							map.put("msg","ok");
 						}
 					}
 					if(gltype.equals("2")){
-						TStaffEntity t1=staffService.getTStaffEntityByGMGP1(gmobile,MD5pwd);
-						if(t1==null || t1.getOid()==null){
+						TStaffEntity staff=staffService.getTStaffEntityByGMGP1(gmobile,MD5pwd);
+						if(staff==null || staff.getOid()==null){
 							map.put("msg","error2");//不存在用户
 						}else{
-							if(t1.getGlev2().equals("0")){
+							if(staff.getGlev2().equals("0")){
 								map.put("msg","errorlock");
-							}else if(t1.getGlev2().equals("1")){//将登录信息储存到session
-								Loginer l=new Loginer();
-								l.setOid(t1.getOid());
-								l.setGmobile(t1.getGmobile());
-								l.setGltype(gltype);
-								l.setCid(t1.getCid());
-								l.setGlev1(t1.getGlev1());
-								l.setGlev2(t1.getGlev2());
-								request.getSession().setAttribute("loginer",l);
+							}else if(staff.getGlev2().equals("1")){//将登录信息储存到session
+								Loginer loginer=new Loginer();
+								loginer.setOid(staff.getOid());
+								loginer.setGmobile(staff.getGmobile());
+								loginer.setGltype(gltype);
+								loginer.setCid(staff.getCid());
+								loginer.setGlev1(staff.getGlev1());
+								loginer.setGlev2(staff.getGlev2());
+								request.getSession().setAttribute("loginer",loginer);
 								map.put("msg","ok");
 							}else{
 								map.put("msg","error1");
@@ -591,16 +591,16 @@ public class UserController {
 	}
 	@RequestMapping("/logsuc")
 	public ModelAndView logSuc(HttpServletRequest request, HttpServletResponse response){
-		Loginer l= (Loginer) request.getSession().getAttribute("loginer");
-		if(l==null){
+		Loginer loginer= (Loginer) request.getSession().getAttribute("loginer");
+		if(loginer==null){
 			return new ModelAndView("redirect:/login.jsp?method=logtout");
 		}else{
-			if(l.getGltype().equals("1")){
+			if(loginer.getGltype().equals("1")){
 				return new ModelAndView("redirect:/pMain.jsp");
-			}else if(l.getGltype().equals("2")){
-				if(l.getGlev1().equals("1")){
+			}else if(loginer.getGltype().equals("2")){
+				if(loginer.getGlev1().equals("1")){
 					return new ModelAndView("redirect:/cMain.jsp");
-				}else if(l.getGlev1().equals("3")){
+				}else if(loginer.getGlev1().equals("3")){
 					return new ModelAndView("redirect:/sMain.jsp");
 				}else{return null;}
 			}else{

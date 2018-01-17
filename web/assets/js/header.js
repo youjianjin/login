@@ -1,13 +1,17 @@
-//this is a common javascript class
-(function($){$.getUrlParam = function(name){var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");var r = window.location.search.substr(1).match(reg);if(r!=null) return unescape(r[2]); return null;}})(jQuery);
-//
-function lshow(str){$(str).show();}
-function lhide(str){$(str).hide();}
-function lsuccess(str){$(str).removeClass("input-error").addClass("input-success");}
-function lerror(str){$(str).removeClass("input-success").addClass("input-error");}
-function ldisabled(str){$(str).attr("disabled",true);}
-function lenabled(str){$(str).removeAttr("disabled");}
-function logtout(){window.location.href="/login.jsp?method=logtout";}
-function loglock(){window.location.href="/login.jsp?method=loglock";}
-//unique two dimensional array
-function jsHashArray(arr){var hash = {};var result = [];for(var i=0,len=arr.length;i<len;i++){if(!hash[arr[i]]){result.push(arr[i]);hash[arr[i]] = true;}}return result;}
+        $(document).ready(function(){
+            $(".i-user").click(function(){
+                var statu=$(this).attr("data-hide");
+                if(statu=='show'){
+                    $(this).children().eq(1).attr("class","icon-caret-down");
+                    $(".i-menu").hide();
+                    $(this).attr("data-hide","hide");
+                }else{
+                    $(this).children().eq(1).attr("class","icon-caret-up");
+                    $(".i-menu").show();
+                    $(this).attr("data-hide","show");
+                }
+            }).blur(function(){
+                var statu=$(".i-user").attr("data-hide");
+                if(statu=='show'){$(this).children().eq(1).attr("class","icon-caret-down");$(".i-menu").hide();$(".i-user").attr("data-hide","hide");}
+            });
+        });

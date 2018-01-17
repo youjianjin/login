@@ -3,6 +3,16 @@
  */
 var logchk=[false,false,false];
 $(document).ready(function(){
+            var method=$.getUrlParam("method");//login,register,regsuc,logtout,logout,loglock
+            if(method=='login' || method==null){lshow('.login');lhide('.register,.regsuc,.logtout,.logout,.loglock');}
+            if(method=='register'){lshow('.register');lhide('.login,.regsuc,.logtout,.logout,.loglock');}
+            if(method=='regsuc'){lshow('.regsuc');lhide('.login,.register,.logtout,.logout,.loglock');}
+            if(method=='logtout'){lshow('.logtout');lhide('.login,.register,.regsuc,.logout,.loglock');}
+            if(method=='logout'){lshow('.logout');lhide('.login,.register,.regsuc,.logtout,.loglock');}
+            if(method=='loglock'){lshow('.loglock');lhide('.login,.register,.regsuc,.logtout,.logout');}
+            $("#regsucbtn").click(function(){window.location.href="/login.jsp";});
+            $("#logtoutbtn,#logoutbtn,#loglockbtn").click(function(){window.location.href="/login.jsp?method=login";});
+
     //login
     $("#log_un").blur(function(){checkLogUn();});
     $("#log_pwd").blur(function(){checkLogPwd();});
@@ -23,6 +33,10 @@ $(document).ready(function(){
         if(num!="2"){$(this).removeClass("log_a_choose");$("#log_a_person").addClass("log_a_choose");$("#log_type_num").val("2");}
     });
 });
+
+//valcode
+function ValCode(){var rad = Math.random();$("#randCodeImage1,#randCodeImage2").attr("src", "ValCode/generate.json?rand="+rad);logValHide();regValHide();$("#log_val,#reg_val").val("").removeClass("input-success");}
+
 //
 function login(username,userpwd,usercode,ltype){
     var rand=Math.random();

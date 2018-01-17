@@ -4,49 +4,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(".i-user").click(function(){
-                var statu=$(this).attr("data-hide");
-                if(statu=='show'){
-                    $(this).children().eq(1).attr("class","icon-caret-down");
-                    $(".i-menu").hide();
-                    $(this).attr("data-hide","hide");
-                }else{
-                    $(this).children().eq(1).attr("class","icon-caret-up");
-                    $(".i-menu").show();
-                    $(this).attr("data-hide","show");
-                }
-            }).blur(function(){
-                var statu=$(".i-user").attr("data-hide");
-                if(statu=='show'){$(this).children().eq(1).attr("class","icon-caret-down");$(".i-menu").hide();$(".i-user").attr("data-hide","hide");}
-            });
-        });
-    </script>
+	<link href="/assets/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/assets/js/header.js"></script>
 </head>
-<style type="text/css">
-    .head{width:100%;height:60px;background-color: #0073ae;position: relative;}
-    .headerlist a{display:block;width: 100px;height: 100%;margin: 0 auto;color: #fff;}
-    .bannerimg1{height: 100px;margin-left: 30%;float: left;}
-    .headerc{width:90%;height:60px;margin: 0 auto;display:flex;flex-direction: row;justify-content: space-between;align-items: center;}
-    .headerlogo{height:40px;}
-    .headerlist{display:flex;flex-direction: row;justify-content: space-around;align-items: center;font-size: 16px;}
-    .headerlogo img{height:40px;width:auto;}
-    .headerlist div{width:160px;text-align: center;height:60px;line-height:60px;box-sizing: border-box;-webkit-box-sizing: border-box;}
-    .headerr{width:160px;height:60px;align-items: center;display: flex;color: #fff;}
-    .msg{width:60px;height:42px;font-size: 30px;}
-    .msg:hover{text-decoration: none;}
-    .msg_icon{float: left;}
-    .msg_num{width: 20px;height: 20px;font-size: 10px;float: left;background-color: #d43f3a;text-align: center;line-height: 20px;-webkit-border-radius: 50%;border-radius: 50%;margin-left: -5px;}
-    .i-user{font-size: 24px;height: 60px;display: flex;align-items: center;width: 40px;}
-    .headeruser{position: relative;width:40px;height: 60px;}
-    .i-menu{width:140px;background-color: #fff;float: left;color: #000;border: 1px solid #ccc;padding-top: 6px;padding-bottom: 10px;margin-top: -10px;box-shadow: 0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);display: none;}
-    .i-menu>div{width:100%;height:26px;padding-top: 3px;padding-bottom: 3px;padding-left: 5px;line-height: 20px;}
-    .i-menu>div:hover{background-color: #428bca;}
-    .i-menu i{margin-left: 10px;margin-right: 15px;}
-    .i-divider{width: 100%;border-bottom: 1px solid #ccc;height: 1px;margin-top: 8px;margin-bottom: 8px;display: block;}
-    .i-menu:before{content: '';float: left;width: 10px;height:10px;background-color: #fff;border-left: 1px solid #ccc;border-top:1px solid #ccc;margin-top: -12px;margin-left: 5px;transform: rotate(45deg);}
-</style>
+
 <body>
 <!-- header -->
 <div class="head">

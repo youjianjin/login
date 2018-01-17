@@ -47,15 +47,15 @@ public class StaffController {
     Map checkRandCode(HttpServletRequest request, HttpServletResponse response){
         Map map=new HashMap<String,Object>();
         try{
-            Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-            if(l==null){
+            Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+            if(loginer==null){
                 map.put("msg","error1");
             }else{
-                String oid=l.getOid();
-                TStaffEntity ts=staffService.getTStaffEntityByOID(oid);
-                TStaffInfoEntity tsi=staffService.getTStaffInfoEntityByOID(ts.getSiid());
-                map.put("ts",ts);
-                map.put("tsi",tsi);
+                String oid=loginer.getOid();
+                TStaffEntity staff=staffService.getTStaffEntityByOID(oid);
+                TStaffInfoEntity staffInfo=staffService.getTStaffInfoEntityByOID(staff.getSiid());
+                map.put("staff",staff);
+                map.put("staffInfo",staffInfo);
                 map.put("msg","ok");
             }
         }catch (Exception e){
@@ -68,11 +68,11 @@ public class StaffController {
     public @ResponseBody Map modifyStaffInfo(HttpServletRequest request, HttpServletResponse response){
         Map map=new HashMap<String,Object>();
         try{
-            Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+            Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
             String gemail=request.getParameter("gemail");
             String gjobnum=request.getParameter("gjobnum");
             String gqq=request.getParameter("gqq");
-            if(l==null){
+            if(loginer==null){
                 map.put("msg","error1");
             }else{
                 if(gemail==null || gemail.equals("")){
@@ -83,12 +83,12 @@ public class StaffController {
                     if(tsold==null){
                         isempty=true;
                     }else{
-                        if(l.getOid().equals(tsold.getOid())){
+                        if(loginer.getOid().equals(tsold.getOid())){
                             isempty=true;
                         }
                     }
                     if(isempty){
-                        TStaffEntity ts1=staffService.getTStaffEntityByOID(l.getOid());
+                        TStaffEntity ts1=staffService.getTStaffEntityByOID(loginer.getOid());
                         ts1.setGemail(gemail);
                         if(ts1.getSiid()==null || ts1.getSiid().equals("")){//新账号
                             String siid="SI"+ Gettime.getRandom12();
@@ -96,7 +96,7 @@ public class StaffController {
                             tse.setOid(siid);
                             tse.setGjobnum(gjobnum);
                             tse.setGqq(gqq);
-                            tse.setCid(l.getCid());
+                            tse.setCid(loginer.getCid());
                             staffService.addTStaffInfoEntity(tse);
                             ts1.setSiid(siid);
                         }else{
@@ -122,11 +122,11 @@ public class StaffController {
     public @ResponseBody Map staffProfile(HttpServletRequest request, HttpServletResponse response){
         Map map=new HashMap<String,Object>();
         try{
-            Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-            if(l==null){
+            Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+            if(loginer==null){
                 map.put("msg","error1");
             }else{
-                TStaffEntity ts=staffService.getTStaffEntityByOID(l.getOid());
+                TStaffEntity ts=staffService.getTStaffEntityByOID(loginer.getOid());
                 TCompanyEntity tc=companyService.getTCompanyEntityByOid(ts.getCid());
                 TStaffInfoEntity tsi=staffService.getTStaffInfoEntityByOID(ts.getSiid());
                 TStaffProfileEntity tsp=staffService.getTStaffProfileEntityBySID(ts.getOid());
@@ -146,14 +146,14 @@ public class StaffController {
     public @ResponseBody Map modifyStaffProfile(HttpServletRequest request, HttpServletResponse response){
         Map map=new HashMap<String,Object>();
         try{
-            Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+            Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
             String ssign=request.getParameter("ssign");
             String sexp=request.getParameter("sexp");
             String sgoodat=request.getParameter("sgoodat");
-            if(l==null){
+            if(loginer==null){
                 map.put("msg","error1");
             }else{
-                TStaffProfileEntity tsp=staffService.getTStaffProfileEntityBySID(l.getOid());
+                TStaffProfileEntity tsp=staffService.getTStaffProfileEntityBySID(loginer.getOid());
                 if(tsp==null){//new
                     tsp=new TStaffProfileEntity();
                     String tspid="SP"+Gettime.getRandom12();
@@ -161,7 +161,7 @@ public class StaffController {
                     tsp.setSsign(ssign);
                     tsp.setSexp(sexp);
                     tsp.setSgoodat(sgoodat);
-                    tsp.setSid(l.getOid());
+                    tsp.setSid(loginer.getOid());
                 }else{//modify
                     tsp.setSsign(ssign);
                     tsp.setSexp(sexp);

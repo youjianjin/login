@@ -46,18 +46,18 @@ public class CompanyController {
 	public @ResponseBody Map checkRandCode(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				String gmobile=l.getGmobile();
-				String cid=l.getCid();
-				TStaffEntity ts=staffService.getTStaffEntityByGM(gmobile,"1");
-				TCompanyEntity tc=companyService.getTCompanyEntityByOid(cid);
-				TCompanyInfoEntity ti=companyService.getTCompanyInfoEntityByCid(cid);
-				map.put("table1",ts);
-				map.put("table2",tc);
-				map.put("table3",ti);
+				String gmobile=loginer.getGmobile();
+				String cid=loginer.getCid();
+				TStaffEntity staff=staffService.getTStaffEntityByGM(gmobile,"1");
+				TCompanyEntity company=companyService.getTCompanyEntityByOid(cid);
+				TCompanyInfoEntity companyInfo=companyService.getTCompanyInfoEntityByCid(cid);
+				map.put("staff",staff);
+				map.put("company",company);
+				map.put("companyInfo",companyInfo);
 				map.put("msg","ok");
 			}
 		}catch (Exception e){
@@ -65,6 +65,7 @@ public class CompanyController {
 		}
 		return map;
 	}
+	
 	/**
 	 * @apiNote 更新公司信息
 	 * @param request
@@ -75,33 +76,33 @@ public class CompanyController {
 	public @ResponseBody Map modifycompany(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				String l3=request.getParameter("l3");//contact
-				String l4=request.getParameter("l4");//city
-				String l5=request.getParameter("l5");//address
-				String l6=request.getParameter("l6");//info
-				String l7=request.getParameter("l7");//mould
+				String contact=request.getParameter("contact");
+				String city=request.getParameter("city");
+				String address=request.getParameter("address");
+				String info=request.getParameter("info");
+				String mould=request.getParameter("mould");
 				String ciid=request.getParameter("ciid");
-				if(l3==null || l4==null || l5==null || l6==null || l7==null){
+				if(contact==null || city==null || address==null || info==null || mould==null){
 					map.put("msg","error0");
 				}else{
-					TCompanyInfoEntity tie=new TCompanyInfoEntity();
+					TCompanyInfoEntity entity=new TCompanyInfoEntity();
 					if(ciid==null || ciid==""){
 						String cinfoid="CI"+ Gettime.getRandom12();
-						tie.setOid(cinfoid);
+						entity.setOid(cinfoid);
 					}else{
-						tie.setOid(ciid);
+						entity.setOid(ciid);
 					}
-					tie.setGcontact(l3);
-					tie.setGcity(l4);
-					tie.setGaddress(l5);
-					tie.setGinfo(l6);
-					tie.setGmould(l7);
-					tie.setCid(l.getCid());
-					companyService.modifyCompanyInfo(tie);
+					entity.setGcontact(contact);
+					entity.setGcity(city);
+					entity.setGaddress(address);
+					entity.setGinfo(info);
+					entity.setGmould(mould);
+					entity.setCid(loginer.getCid());
+					companyService.modifyCompanyInfo(entity);
 					map.put("msg","ok");
 				}
 			}
@@ -115,11 +116,11 @@ public class CompanyController {
 	public @ResponseBody Map staffList(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				String cid=l.getCid();
+				String cid=loginer.getCid();
 				List list=companyService.getTSDSIListByCid(cid,"1");
 				map.put("list",list);
 				map.put("msg","ok");
@@ -133,11 +134,11 @@ public class CompanyController {
 	public @ResponseBody Map securestafflist(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				String cid=l.getCid();
+				String cid=loginer.getCid();
 				List list=companyService.getSeTStaffListByCid(cid,"1","1");
 				map.put("list",list);
 				map.put("msg","ok");
@@ -152,20 +153,20 @@ public class CompanyController {
 	public @ResponseBody Map addDept(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			String deptname=request.getParameter("deptname");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			String dept_name=request.getParameter("dept_name");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				if(deptname==null || deptname==""){
+				if(dept_name==null || dept_name==""){
 					map.put("msg","error0");
 				}else{
-					TDeptEntity tde=new TDeptEntity();
+					TDeptEntity entity=new TDeptEntity();
 					String did="DE"+Gettime.getRandom12();
-					tde.setOid(did);
-					tde.setGdept(deptname);
-					tde.setCid(l.getCid());
-					companyService.addTDeptEntity(tde);
+					entity.setOid(did);
+					entity.setGdept(dept_name);
+					entity.setCid(loginer.getCid());
+					companyService.addTDeptEntity(entity);
 					map.put("msg","ok");
 				}
 			}
@@ -179,20 +180,20 @@ public class CompanyController {
 	public @ResponseBody Map modifydept(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String deptid=request.getParameter("deptid");
 			String deptname=request.getParameter("deptname");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(deptid==null || deptid=="" || deptname==null || deptname==""){
 					map.put("msg","error0");
 				}else{
-					TDeptEntity tde=new TDeptEntity();
-					tde.setOid(deptid);
-					tde.setGdept(deptname);
-					tde.setCid(l.getCid());
-					companyService.addTDeptEntity(tde);
+					TDeptEntity entity=new TDeptEntity();
+					entity.setOid(deptid);
+					entity.setGdept(deptname);
+					entity.setCid(loginer.getCid());
+					companyService.addTDeptEntity(entity);
 					map.put("msg","ok");
 				}
 			}
@@ -206,13 +207,13 @@ public class CompanyController {
 	public @ResponseBody Map addstaff(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String sname=request.getParameter("sname");
 			String smobile=request.getParameter("smobile");
 			String sdept=request.getParameter("sdept");
 			String sposition=request.getParameter("sposition");
 			String sjobnum=request.getParameter("sjobnum");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(sname==null || sname=="" || smobile==null || smobile=="" || sdept==null || sdept==""){
@@ -223,8 +224,8 @@ public class CompanyController {
 						String rand=Gettime.getRandom12();
 						String oid="US"+rand;
 						String siid="SI"+rand;
-						staffService.addTStaffEntity(oid,sname,smobile,"","",l.getCid(),sdept,siid,"3","1");
-						staffService.addTStaffInfoEntity(siid,sposition,sjobnum,l.getCid());
+						staffService.addTStaffEntity(oid,sname,smobile,"","",loginer.getCid(),sdept,siid,"3","1");
+						staffService.addTStaffInfoEntity(siid,sposition,sjobnum,loginer.getCid());
 						map.put("msg","ok");
 					}else{
 						map.put("msg","error2");//已有在使用的手机了
@@ -241,12 +242,12 @@ public class CompanyController {
 	public @ResponseBody Map modifystaff(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String soid=request.getParameter("soid");
 			String sdept=request.getParameter("sdept");
 			String sposition=request.getParameter("sposition");
 			String sjobnum=request.getParameter("sjobnum");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(soid==null || soid=="" || sdept==null || sdept==""){
@@ -260,7 +261,7 @@ public class CompanyController {
 						staffService.modifyStaff(tse);
 						if(tse.getSiid()==null || tse.getSiid().equals("")){
 							String newsiid="SI"+Gettime.getRandom12();
-							staffService.addTStaffInfoEntity(newsiid,sposition,sjobnum,l.getCid());
+							staffService.addTStaffInfoEntity(newsiid,sposition,sjobnum,loginer.getCid());
 							map.put("msg","ok");
 						}else{
 							staffService.modifyStaffInfoPoJn(tse.getSiid(),sposition,sjobnum);
@@ -279,9 +280,9 @@ public class CompanyController {
 	public @ResponseBody Map lockstaff(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String soid=request.getParameter("soid");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(soid==null || soid==""){
@@ -321,19 +322,19 @@ public class CompanyController {
 	public @ResponseBody Map modifystaffLev(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,Object>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String soid=request.getParameter("soid");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(soid==null || soid==""){
 					map.put("msg","error0");
 				}else{
 					if(soid.equals("0")){//去掉管理员
-						staffService.deleteGlev1Is2(l.getCid(),"2","3");
+						staffService.deleteGlev1Is2(loginer.getCid(),"2","3");
 						map.put("msg","ok");
 					}else{//更换管理员
-						staffService.deleteGlev1Is2(l.getCid(),"2","3");
+						staffService.deleteGlev1Is2(loginer.getCid(),"2","3");
 						staffService.addGlev1Is3(soid,"2");
 						map.put("msg","ok");
 					}
@@ -349,11 +350,11 @@ public class CompanyController {
 	public @ResponseBody Map clientList(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				List list=companyService.getComClientByCid(l.getCid());
+				List list=companyService.getComClientByCid(loginer.getCid());
 				map.put("list",list);
 				map.put("msg","ok");
 			}
@@ -367,11 +368,11 @@ public class CompanyController {
 	public @ResponseBody Map supplyList(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
-			if(l==null){
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
-				List list=companyService.getComSupplyByCid(l.getCid());
+				List list=companyService.getComSupplyByCid(loginer.getCid());
 				map.put("list",list);
 				map.put("msg","ok");
 			}
@@ -385,9 +386,9 @@ public class CompanyController {
 	public @ResponseBody Map searchComList(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String namelike=request.getParameter("namelike");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(namelike==null || namelike==""){
@@ -408,15 +409,15 @@ public class CompanyController {
 	public @ResponseBody Map addClient(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String clid=request.getParameter("clid");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(clid==null || clid==""){
 					map.put("msg","error0");
 				}else{
-					companyService.addclient(l.getCid(),clid);
+					companyService.addclient(loginer.getCid(),clid);
 					map.put("msg","ok");
 				}
 			}
@@ -430,15 +431,15 @@ public class CompanyController {
 	public @ResponseBody Map addSupply(HttpServletRequest request, HttpServletResponse response){
 		Map map=new HashMap<String,List>();
 		try{
-			Loginer l=(Loginer)request.getSession().getAttribute("loginer");
+			Loginer loginer=(Loginer)request.getSession().getAttribute("loginer");
 			String suid=request.getParameter("suid");
-			if(l==null){
+			if(loginer==null){
 				map.put("msg","error1");
 			}else{
 				if(suid==null || suid==""){
 					map.put("msg","error0");
 				}else{
-					companyService.addsupply(l.getCid(),suid);
+					companyService.addsupply(loginer.getCid(),suid);
 					map.put("msg","ok");
 				}
 			}

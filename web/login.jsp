@@ -14,6 +14,7 @@
 	<link href="/assets/css/ace.min.css" rel="stylesheet" type="text/css">
 	<link href="/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="/assets/css/index.css" rel="stylesheet" type="text/css">
+	<link href="/assets/css/login.css" rel="stylesheet" type="text/css">
 	<script src="/assets/js/jquery-2.0.3.min.js"></script>
 	<script src="/assets/js/bootstrap.min.js"></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -21,67 +22,11 @@
 	<script src="/assets/js/html5shiv.js"></script>
 	<script src="/assets/js/respond.min.js"></script>
 	<![endif]-->
-    <script src="/assets/js/header.js"></script>
+    <script src="/assets/js/common.js"></script>
     <script src="/assets/js/login.js"></script>
     <script src="/assets/js/register.js"></script>
-	<script type="text/javascript">
-        $(document).ready(function(){
-            var method=$.getUrlParam("method");//login,register,regsuc,logtout,logout,loglock
-            if(method=='login' || method==null){lshow('.login');lhide('.register,.regsuc,.logtout,.logout,.loglock');}
-            if(method=='register'){lshow('.register');lhide('.login,.regsuc,.logtout,.logout,.loglock');}
-            if(method=='regsuc'){lshow('.regsuc');lhide('.login,.register,.logtout,.logout,.loglock');}
-            if(method=='logtout'){lshow('.logtout');lhide('.login,.register,.regsuc,.logout,.loglock');}
-            if(method=='logout'){lshow('.logout');lhide('.login,.register,.regsuc,.logtout,.loglock');}
-            if(method=='loglock'){lshow('.loglock');lhide('.login,.register,.regsuc,.logtout,.logout');}
-            $("#regsucbtn").click(function(){window.location.href="/login.jsp";});
-            $("#logtoutbtn,#logoutbtn,#loglockbtn").click(function(){window.location.href="/login.jsp?method=login";});
-        });
-		//valcode
-		function ValCode(){var rad = Math.random();$("#randCodeImage1,#randCodeImage2").attr("src", "ValCode/generate.json?rand="+rad);logValHide();regValHide();$("#log_val,#reg_val").val("").removeClass("input-success");}
-	</script>
 
-<style type="text/css">
-    /* common */
-    .c{width: 100%;float: left;padding-bottom: 100px;}
-    .input-success{border-color: #92bf65!important;}
-    .input-error{border-color: #d16e6c!important;}
-    /* top */
-    .banner{width:100%;z-index: 1;height: 100px;background-color: #0073ae;}
-    .bannerimg1{height: 60px;margin-top: 20px;margin-left: 30%;float: left;}
-    .bannerr{width:50%;float: left;margin-left: 5%;}
-    .bannerimg2{height: 60px;margin-top: 20px;}
-    /* login */
-    .login,.register,.regsuc,.logtout,.logout,.loglock{width:960px;z-index: 1;margin: 160px auto;display:none;}
-    .div_log_divider{width:1px;height:30px;float: left;margin: 0 -1px;background-color: #ccc;}
-    .login>div,.register>div,.regsuc>div,.logtout>div,.logout>div,.loglock>div{width: 640px;margin-left: 320px;}
-    .login_step3{margin-top: 120px;}
-    .login_step3,.login_step4{width:300px!important;}
-    .log_a_choose{cursor: pointer;}
-    .log_a_choose i{color:#fff;}
-    .dotline{width: 100%;height: 10px;float: left;border-bottom: 1px dotted #428bac;}
-    .div_log_30{height: 30px;}
-    .div_log_50{height: 50px;width:300px;}
-    .input-icon{width: 300px;}
-    .input-icon [class*="icon-"]{line-height: 32px;}
-    #log_un,#log_pwd,#reg_name,#reg_com,#reg_un,#reg_mail,#reg_pwd,#reg_repwd{width: 300px;}
-    #log_val,#reg_val,#reg_mo{width: 194px;}
-    /*  */
-    #log_un_1,#log_pwd_1,#log_val_1{color: #d16e6c;display: none;}
-    #log_un_2,#log_pwd_2,#log_val_2{color: #7ba065;display: none;}
-    #log_un_3,#log_pwd_3{color: #d16e6c;display: none;}
-    #reg_name_1,#reg_com_1,#reg_un_1,#reg_mail_1,#reg_val_1,#reg_mo_1,#reg_pwd_1,#reg_repwd_1,#reg_chk_1{color: #d16e6c;display: none;}
-    #reg_name_2,#reg_com_2,#reg_un_2,#reg_mail_2,#reg_val_2,#reg_mo_2,#reg_pwd_2,#reg_repwd_2{color: #7ba065;display: none;}
-    #reg_name_3,#reg_com_3,#reg_un_3,#reg_un_4,#reg_mail_3,#reg_mo_3,#reg_pwd_3,#reg_repwd_3{color: #d16e6c;display: none;}
-    .btn{width: 300px;}
-    input{height:32px;}
-    /* register */
-    .div_reg_name,.div_reg_com{width: 100%;}
-    .div_reg_com{display: none;}
-    .div_reg_40{height: 40px;}
-    .div_reg_50{height: 50px;}
-    #reg_mo,.btn_mo{width: 146px;}
-    .btn_mo{height:28px;line-height: 22px;font-size: 14px;padding: 0;margin-left: 0;}
-</style>
+
 </head>
 <body>
 	<div class="c">
